@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <script>
+        function runAjax() {
+            //getting the selected merchandise type
+            var selectedMerchType = document.getElementById("merchList").value;
+
+            //validate the selection
+            if (selectedMerchType !== "") {
+                //create an agent of class XMLHttpRequest
+                //but it depends on the browser
+                var agent;
+                if (window.XMLHttpRequest) {
+                    agent = new XMLHttpRequest();
+                } else {
+                    agent = new ActiveXObject("Microsoft.XMLHTTP");
+                }
+
+                //open communication with a program at the server via GET method
+                agent.open("GET", "Final.php?merchKey=" + selectedMerchType, true);
+                agent.send(null);
+
+                // check for communication
+                agent.onreadystatechange = function () {
+                    if (agent.readyState == 4 && agent.status == 200) {
+                        var serverResponse = agent.responseText;
+
+                        //display serverResponse at the placeholder
+                        //using a DOM (Document Object Model)
+                        document.getElementById("showresults").innerHTML = serverResponse;
+
+                        //call Hello function when the AJAX request is complete
+                
+                    }
+                };
+            } else {
+                //alert if the selection is not valid
+                alert("Please select a merchandise type");
+            }
+        }
+        function showTotal(price) {
+    
+            var discountedPrice;
+
+            if (price === 36) {discountedPrice = 56 - 36;} 
+            else if (price === 48){discountedPrice = 80 - 48;}
+            else if (price === 89){discountedPrice = 98 - 89;}
+            else if (price === 80.00){discountedPrice = 95 - 80.00;}
+            else if (price === 42){discountedPrice =  70 - 42;}
+            else if (price === 39){discountedPrice =  65 - 39;}
+            else if (price === 33.00){discountedPrice =  55 - 33.00 ;}
+
+            alert("Total Price: " + "$" + price  + "\nAmount of Savings after the Discount is Included in the Sale: $" + discountedPrice );
+        }
+    </script>
+</head>
+<body>
+    <h2>A Shopper's Heaven</h2>
+    <p></p>
+    Merchandise/Color: 
+    <select id="merchList" onchange="runAjax()">
+        <option value="">Merchandise/Color</option>
+        <option value="black_shoe.png">Black Shoe </option>
+        <option value="brown_shoe.png">Brown Shoe</option>
+        <option value="blue_dress.png">Blue Dress</option>
+        <option value="green_dress.png">Green Dress</option>
+        <option value="white_xl_shirt.png">White XL Shirt</option>
+        <option value="white_l_shirt.png">White L Shirt</option>
+        <option value="white_s_shirt.png">White S Shirt</option>
+    </select>
+    <p></p>
+    <div id="showresults"></div>
+</body>
+</html>
